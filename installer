@@ -23,6 +23,7 @@ echo " "
 sleep 1
 while read -r p ; do sudo apt install -y $p ; done < <(cat << "EOF"
     build-essential
+    net-tools
     default-jdk
     libssl-dev
     exuberant-ctags
@@ -71,6 +72,9 @@ while read -r p ; do sudo apt install -y $p ; done < <(cat << "EOF"
     flatpak
     sendemail
     libgtk*-dev
+    fonts-powerline
+    mpv
+    python3.8
 EOF
 )
 sudo apt update
@@ -133,13 +137,16 @@ sleep 3
 #----------------------------->>> Install SublimeText, Terminator, Neofetch, AnyDesk, Insomnia, Postman and VisualStudio
 echo " "
 echo "----------------------------------------------------------------------------------"
-echo "--------->      Install SublimeText, Terminator, Neofetch, AnyDesk, Insomnia, Postman and VisualStudio"
+echo "--------->      Install SublimeText, Atom, Terminator, Neofetch, AnyDesk, Insomnia, Postman, Heroku-CLI and VisualStudio"
 echo "----------------------------------------------------------------------------------"
 echo " "
 sleep 1
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
 echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
 sudo apt update && sudo apt-get install sublime-text -y
+sleep 1
+sudo add-apt-repository ppa:webupd8team/atom -y
+sudo apt-get update && sudo apt-get install atom -y
 sleep 1
 sudo add-apt-repository ppa:gnome-terminator/nightly-gtk3 -y
 sudo apt update && sudo apt-get install terminator -y
@@ -157,18 +164,20 @@ sudo  apt update && sudo apt-get install insomnia -y
 sleep 1
 sudo snap install postman
 sleep 1
+sudo snap install --classic heroku
+sleep 1
 sudo snap install code --classic
 sleep 3
 
 #----------------------------->>> Install Node.js, Npm, Yarn, T-get and Global Development Node Modules
 echo " "
 echo "----------------------------------------------------------------------------------"
-echo "--------->      Install Node.js, Npm, Yarn, T-get and Global Development Node Modules "
+echo "--------->      Install Node.js, Npm, Yarn, Nodemon, NPX, Expo, Serve, TypeORM, Reactotron, Deno and Global Development Node Modules "
 echo "----------------------------------------------------------------------------------"
 echo " "
 sleep 1
 sudo curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo apt-get install -y nodejs
+sudo apt install -y nodejs
 sleep 1
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
@@ -178,17 +187,28 @@ node -v
 npm -v
 yarn --version
 sleep 1
-sudo npm install -g t-get
-sleep 1
-sudo npm install -g express-generator
-sleep 1
-sudo npm install -g gulp-cli
-sleep 1
 sudo npm install -g nodemon
+# sleep 1
+# sudo yarn global add gluegun
 sleep 1
-sudo yarn global add gluegun
+sudo npm install -g npx
 sleep 1
-sudo yarn global add npm
+sudo npm install -g expo-cli
+sleep 1 
+sudo npm install -g serve
+sleep 1 
+yarn global add typeorm
+sleep 1 
+cd ~/Downloads > /dev/null
+wget https://github.com/infinitered/reactotron/releases/download/v2.17.1/reactotron-app_2.17.1_amd64.deb
+sudo apt install -y ./reactotron-app_2.17.1_amd64.deb
+sleep 1
+curl -fsSL https://deno.land/x/install/install.sh | sh
+cat >> ~/.bashrc << EOL
+    alias deno='/home/vinicius/.deno/bin/deno'
+EOL
+deno --version
+sleep 1
 sleep 3
 
 #----------------------------->>> Install VirtualBox
@@ -202,6 +222,25 @@ sudo add-apt-repository multiverse && sudo  apt update
 sudo apt install virtualbox -y
 sleep 3
 
+#----------------------------->>> Install Docker
+echo " "
+echo "----------------------------------------------------------------------------------"
+echo "--------->      Install Docker"
+echo "----------------------------------------------------------------------------------"
+echo " "
+sleep 1
+sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+sleep 1
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sleep 1
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable"
+sleep 1
+sudo apt-get update && sudo apt install docker-ce
+sleep 1
+echo '    --->Testing Docker'
+    /usr/bin/docker --version 
+sleep 3
+
 #----------------------------->>> Install Mega.nz and DropBox
 echo " "
 echo "----------------------------------------------------------------------------------"
@@ -211,7 +250,7 @@ echo " "
 sleep 1
 cd ~/Downloads > /dev/null
 wget https://mega.nz/linux/MEGAsync/xUbuntu_18.04/amd64/megasync-xUbuntu_18.04_amd64.deb
-sudo apt-get install -y ./megasync-xUbuntu_18.04_amd64.deb
+sudo apt install -y ./megasync-xUbuntu_18.04_amd64.deb
 sleep 1
 echo "deb [arch=i386,amd64] http://linux.dropbox.com/ubuntu bionic main" | sudo tee -a /etc/apt/sources.list.d/dropbox.list
 sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
@@ -246,13 +285,13 @@ sleep 2
 
 #----------------------------->>> Install Wine
 echo " "
-echo -n "Do you what Install Wine (yes/no) ? "
+echo -n "Do you what Install Wine and PlayOnLinux (yes/no) ? "
 read opcao3
 sleep 1
 if [ $opcao3 = "yes" ]; then
     echo " "
     echo "----------------------------------------------------------------------------------"
-    echo "--------->      Install Wine"
+    echo "--------->      Install Wine and PlayOnLinux "
     echo "----------------------------------------------------------------------------------"
     echo " "
     wget -nc https://dl.winehq.org/wine-builds/winehq.key
@@ -260,8 +299,11 @@ if [ $opcao3 = "yes" ]; then
     sudo apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
     sudo apt update
     sudo apt install --install-recommends winehq-stable -y
+    sudo apt install playonlinux -y
     echo '    --->Testing Wine'
     wine --version
+    echo '    --->Testing PlayOnLinux'
+    playonlinux --version
     sleep 1
 sleep 1
 fi
@@ -297,4 +339,5 @@ echo 'MACHINE DONE'
 #▶ sudo mysql -uroot -p
 #▶ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'suasenha’
 #▶ sudo apt install mysql-workbench
-#
+# 
+# Don't forgot MongoDB Compass, MySLQ Workbench and Postbird
