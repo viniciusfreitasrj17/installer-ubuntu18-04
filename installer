@@ -57,6 +57,7 @@ while read -r p ; do sudo apt install -y $p ; done < <(cat << "EOF"
     figlet
     shutter
     youtube-dl
+    ffmpeg
     vlc
     libindicator7
     libc++abi1
@@ -211,6 +212,31 @@ deno --version
 sleep 1
 sleep 3
 
+#----------------------------->>> Install Python, Pip, bPython, SciKit-Learn and Global Development Python Modules
+echo " "
+echo "----------------------------------------------------------------------------------"
+echo "--------->      Install Python, Pip, bPython, SciKit-Learn and Global Development Python Modules "
+echo "----------------------------------------------------------------------------------"
+echo " "
+sleep 1
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install python3.8
+sleep 1
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+sudo python get-pip.py
+sleep 1
+sudo pip install bpython
+sleep 1
+sudo pip3 install -U scikit-learn
+echo '    --->Testing Python3.8, Pip & bPython'
+python3 --version
+bpython --version
+pip --version
+sleep 1
+sleep 3
+
 #----------------------------->>> Install VirtualBox
 echo " "
 echo "----------------------------------------------------------------------------------"
@@ -229,7 +255,7 @@ echo "--------->      Install Docker"
 echo "----------------------------------------------------------------------------------"
 echo " "
 sleep 1
-sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+sudo apt install apt-transport-https ca-certificates curl -y
 sleep 1
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sleep 1
@@ -304,6 +330,26 @@ if [ $opcao3 = "yes" ]; then
     wine --version
     echo '    --->Testing PlayOnLinux'
     playonlinux --version
+    sleep 1
+sleep 1
+fi
+
+#----------------------------->>> Install Chromecast
+echo " "
+echo -n "Do you what Install Chromecast (yes/no) ? "
+read opcao3
+sleep 1
+if [ $opcao3 = "yes" ]; then
+    echo " "
+    echo "----------------------------------------------------------------------------------"
+    echo "--------->      Install Chromecast "
+    echo "----------------------------------------------------------------------------------"
+    echo " "
+    cd /tmp  >> /dev/null
+    git clone https://github.com/Rafostar/gnome-shell-extension-cast-to-tv.git
+    cd gnome-shell-extension-cast-to-tv  >> /dev/null
+    git checkout pre-3.36
+    make install
     sleep 1
 sleep 1
 fi
