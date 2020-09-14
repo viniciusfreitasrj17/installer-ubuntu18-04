@@ -248,6 +248,20 @@ sudo add-apt-repository multiverse && sudo  apt update
 sudo apt install virtualbox -y
 sleep 3
 
+#----------------------------->>> Install Discord and Slack
+echo " "
+echo "----------------------------------------------------------------------------------"
+echo "--------->      Install Discord and Slack"
+echo "----------------------------------------------------------------------------------"
+echo " "
+sleep 1
+wget -O ./discord.deb "https://discordapp.com/api/download?platform=linux&format=deb"
+sudo dpkg -i discord.deb
+sleep 1
+wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.0.2-amd64.deb
+sudo apt install ./slack-desktop-*.deb
+sleep 3
+
 #----------------------------->>> Install Docker
 echo " "
 echo "----------------------------------------------------------------------------------"
