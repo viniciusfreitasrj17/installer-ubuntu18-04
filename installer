@@ -279,8 +279,11 @@ sudo apt-get update && sudo apt install docker-ce
 sleep 1
 echo '    --->Testing Docker'
     sudo docker --version 
+sleep 1
 sudo curl -L "https://github.com/docker/compose/releases/download/1.27.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sleep 1
 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+sleep 1
 echo '    --->Testing Docker Compose'
     sudo docker-compose --version
 sleep 3
