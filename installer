@@ -40,6 +40,7 @@ while read -r p ; do sudo apt install -y $p ; done < <(cat << "EOF"
     libwxgtk3.0-gtk3-dev
     software-properties-common
     git
+    git-flow
     vim-gtk3
     curl
     apt-transport-https
