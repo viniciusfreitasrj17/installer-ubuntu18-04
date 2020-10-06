@@ -266,7 +266,7 @@ sleep 3
 #----------------------------->>> Install Docker
 echo " "
 echo "----------------------------------------------------------------------------------"
-echo "--------->      Install Docker and Docker Compose"
+echo "--------->      Install Docker, Docker Compose and Docker Machine"
 echo "----------------------------------------------------------------------------------"
 echo " "
 sleep 1
@@ -287,6 +287,11 @@ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 sleep 1
 echo '    --->Testing Docker Compose'
     sudo docker-compose --version
+sleep 1
+base=https://github.com/docker/machine/releases/download/v0.16.0 && curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine && sudo mv /tmp/docker-machine /usr/local/bin/docker-machine && chmod +x /usr/local/bin/docker-machine
+sleep 1
+echo '    --->Testing Docker Machine'
+docker-machine version
 sleep 3
 
 #----------------------------->>> Install Mega.nz and DropBox
