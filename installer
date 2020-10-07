@@ -263,12 +263,17 @@ wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.0.2-amd64.d
 sudo apt install ./slack-desktop-*.deb
 sleep 3
 
-#----------------------------->>> Install Docker
+#----------------------------->>> Install AWS and Docker
 echo " "
 echo "----------------------------------------------------------------------------------"
 echo "--------->      Install Docker, Docker Compose and Docker Machine"
 echo "----------------------------------------------------------------------------------"
 echo " "
+sleep 1
+sudo python -m pip install awscli
+sleep 1
+echo '    --->Testing AWS'
+    aws
 sleep 1
 sudo apt install apt-transport-https ca-certificates curl -y
 sleep 1
