@@ -77,6 +77,9 @@ while read -r p ; do sudo apt install -y $p ; done < <(cat << "EOF"
     fonts-powerline
     mpv
     python3.8
+    xfonts-75dpi
+    icedtea-netx
+    icedtea-plugin
 EOF
 )
 sudo apt update
@@ -263,10 +266,10 @@ wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.0.2-amd64.d
 sudo apt install ./slack-desktop-*.deb
 sleep 3
 
-#----------------------------->>> Install AWS and Docker
+#----------------------------->>> Install AWS, Kubernetes and Docker Family
 echo " "
 echo "----------------------------------------------------------------------------------"
-echo "--------->      Install Docker, Docker Compose and Docker Machine"
+echo "--------->      Install AWS, Kubernetes, Docker, Docker Compose and Docker Machine"
 echo "----------------------------------------------------------------------------------"
 echo " "
 sleep 1
@@ -274,6 +277,15 @@ sudo python -m pip install awscli
 sleep 1
 echo '    --->Testing AWS'
     aws
+sleep 1
+curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo chmod +x minikube && sudo mv minikube /usr/local/bin
+sleep 1
+echo '    --->Testing Kubernetes and Minikube'
+kubectl version --client
+minikube version
 sleep 1
 sudo apt install apt-transport-https ca-certificates curl -y
 sleep 1
