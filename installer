@@ -266,10 +266,10 @@ wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.0.2-amd64.d
 sudo apt install ./slack-desktop-*.deb
 sleep 3
 
-#----------------------------->>> Install AWS, Kubernetes and Docker Family
+#----------------------------->>> Install AWS, Docker Family and Kubernetes
 echo " "
 echo "----------------------------------------------------------------------------------"
-echo "--------->      Install AWS, Kubernetes, Docker, Docker Compose and Docker Machine"
+echo "--------->      Install AWS, Docker, Docker Compose, Docker Machine and Kubernetes"
 echo "----------------------------------------------------------------------------------"
 echo " "
 sleep 1
@@ -278,30 +278,9 @@ sleep 1
 echo '    --->Testing AWS'
     aws
 sleep 1
-curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo chmod +x kubectl && sudo mv kubectl /usr/local/bin/
-curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo chmod +x minikube && sudo mv minikube /usr/local/bin
-sleep 1
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-sleep 1
-sudo echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
-sleep 1
-sudo apt update
-sleep 1
-sudo apt install -y kubelet kubeadm kubectl
-sleep 1
-echo '    --->Testing Kubernetes and Minikube'
-kubectl version --client
-minikube version
-sleep 1
-sudo apt install apt-transport-https ca-certificates curl -y
-sleep 1
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sleep 1
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable"
-sleep 1
-sudo apt-get update && sudo apt install docker-ce
+sudo su
+curl -fsSL https://get.docker.com | bash
+exit
 sleep 1
 echo '    --->Testing Docker'
     sudo docker --version 
@@ -317,6 +296,24 @@ base=https://github.com/docker/machine/releases/download/v0.16.0 && curl -L $bas
 sleep 1
 echo '    --->Testing Docker Machine'
 docker-machine version
+sleep 1
+sudo swapoff -a
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+    deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+sleep 1
+sudo apt-get update
+sleep 1
+sudo apt-get install -y kubelet kubeadm kubectl
+sleep 1
+sudo apt-mark hold kubelet kubeadm kubectl
+sleep 1
+echo '    --->Testing Kubernetes'
+kubectl version --client
+kubeadm version
+kubelet --version
 sleep 3
 
 #----------------------------->>> Install Mega.nz and DropBox
