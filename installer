@@ -238,7 +238,24 @@ echo '    --->Testing Python3.8, Pip & bPython'
 python3 --version
 bpython --version
 pip --version
+sleep 3
+
+#----------------------------->>> Install Golang
+echo " "
+echo "----------------------------------------------------------------------------------"
+echo "--------->      Install Golang "
+echo "----------------------------------------------------------------------------------"
+echo " "
 sleep 1
+cd ~/Downloads > /dev/null
+wget https://golang.org/dl/go1.15.3.linux-amd64.tar.gz
+sleep 1
+sudo tar -C /usr/local -xzf go1.15.3.linux-amd64.tar.gz
+sleep 1
+export PATH=$PATH:/usr/local/go/bin
+sleep 1
+echo '    --->Testing Golang'
+go version
 sleep 3
 
 #----------------------------->>> Install VirtualBox
